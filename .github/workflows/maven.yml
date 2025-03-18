@@ -32,7 +32,14 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Step 4 - LIst the current directory
       run: ls -a
-    - name: Step 5 - What is the target folder
+    - name: Step 5 - Setup cache for maven
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Step 6 - What is the target folder
       run: |
         cd target
         ls -a
